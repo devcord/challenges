@@ -24,7 +24,7 @@
             margin-right: auto
 
         button
-            margin-left: 1.5em
+            margin-left: 0.5em
             padding: 1em 2em
             font-size: 1em
 </style>
