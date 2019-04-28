@@ -8,3 +8,26 @@
 html
     background-color: $darkgray
     color: $white
+
+button, input
+    outline: none
+    border: none
+
+    &::-moz-focus-inner
+        border: 0
+
+    &:focus
+        outline: none
+    
+
+button
+    background-color: transparent
+    transition: background-color 0.1s
+    color: white
+    cursor: pointer
+
+    &.active
+        border-bottom: 2px solid $cyan
+
+    &:hover
+        background-color: $cyan

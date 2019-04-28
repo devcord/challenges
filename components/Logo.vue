@@ -1,7 +1,7 @@
 <template>
-    <section>
-        <img src="@/static/iconSquare.png"/> <span v-show="!hideText">Devcord</span>
-    </section>
+    <nuxt-link to="/" tag="section">
+        <img src="@/static/icon.png"/> <span v-show="!hideText">Devcord</span>
+    </nuxt-link>
 </template>
 
 <style lang="sass" scoped>
@@ -9,10 +9,13 @@
         display: flex
         align-items: center
         justify-content: left
-        font-size: 3em
-        height: 2em
+        font-size: 2em
+        height: 100%
+        width: auto
+        cursor: pointer
         img
-            width: 1.6em
+            width: 1.2em
+            padding-right: 0.3em
 </style>
 
 <script>
