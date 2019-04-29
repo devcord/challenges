@@ -1,6 +1,6 @@
 <template>
     <nuxt-link to="/" tag="section">
-        <img src="@/static/icon.png"/> <span v-show="!hideText">Devcord</span>
+        <img src="@/static/icon.svg"/> <span v-show="!hideText">Devcord</span>
     </nuxt-link>
 </template>
 

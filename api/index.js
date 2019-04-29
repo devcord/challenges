@@ -11,12 +11,22 @@ try {
     fs.mkdirSync('./data')
 }
 
+const errors = {
+    internal: {
+        success: false,
+        code: 500,
+        message: 'internal server error'
+    }
+}
+
 const db = new(require('nosqlite').Connection)('./data')
 const challenge = db.database('challenge')
+const auth = db.database('auth')
 
 const getURL = (req, path) => `${req.protocol}://${req.get('host')}/${path || ''}`
 
 if (!challenge.existsSync()) challenge.createSync()
+if (!auth.existsSync()) auth.createSync()
 
 app.use(require('body-parser').json())
 app.use(require("cookie-parser")())
@@ -35,60 +45,87 @@ app.get('/login', (req, res) => {
     }`);
 })
 
+const discord = async (path, Authorization, method) => await (
+    await fetch(`https://discordapp.com/api/${path}`, {
+        method, headers: { Authorization },
+    })
+).json()
 
+const getCurrentUserData = async token => {
+    const data = await (await discord('users/@me', `Bearer ${ token }`))
 
-app.get('/discord/auth', async (req,res) => {
+    return {
+        ...data,
+        avatar_url: `https://cdn.discordapp.com/avatars/${
+            data.id
+        }/${
+            data.avatar
+        }.png`
+    }
+}
+
+const getUserData = async id => {
+    const data = await (await discord(`users/${id}`, `Bot ${ process.env.BOT_TOKEN }`))
+
+    return {
+        ...data,
+        avatar_url: `https://cdn.discordapp.com/avatars/${
+            data.id
+        }/${
+            data.avatar
+        }.png`
+    }
+}
+
+app.get('/users/@me', async (req,res) => {
     try {
-        const response = await fetch(`https://discordapp.com/api/oauth2/token?grant_type=authorization_code&code=${
-            req.query.code
-        }&redirect_uri=${
-            encodeURIComponent(getURL(req, 'api/discord/auth'))
-        }`,
-            {
-            method: 'POST',
-            headers: {
-                Authorization: `Basic ${btoa(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`)}`,
-            },
-        });
-
+        const {access_token} = JSON.parse(req.cookies.discord_token) 
+        
         res.json({
-            response: await response.json()
+            success: true,
+            user: await getCurrentUserData(access_token)
         })
     } catch (error) {
-        res.json({
-            success: false,
-            code: 500,
-            message: 'internal server error'
-        })
-
+        res.json(errors.internal)
         console.log(error)
     }
 })
 
-app.get('/auth', async (req,res) => {
-    const code = req.cookies.discord_code || false
-
-    if (!code) return res.json({
-        success: false,
-        message: 'please log in'
-    })
-
+app.get('/users/:id', async (req,res) => {
     try {
-        const response = await axios.post(`https://discordapp.com/api/oauth2/token?grant_type=authorization_code&code=${
-            code
-        }&redirect_uri=${
-            encodeURIComponent(getURL(req, 'api/discord/auth'))
-        }`, {
-            headers: {
-            Authorization: `Basic ${btoa(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`)}`,
-            },
-        })
-
         res.json({
-            response
+            success: true,
+            user: await getUserData(req.params.id)
         })
     } catch (error) {
-        console
+        res.json(errors.internal)
+        console.log(error)
+    }
+})
+
+app.get('/discord/auth', async (req,res) => {
+    try {
+        let response = await discord(`oauth2/token?grant_type=authorization_code&code=${
+            req.query.code
+        }&redirect_uri=${
+            encodeURIComponent(getURL(req, 'api/discord/auth'))
+        }`,`Basic ${
+            btoa(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`)
+        }`, 'POST');
+
+        const { access_token, expires_in, refresh_token } = response
+
+        res.cookie('discord_token', JSON.stringify({
+            access_token,expires_in
+        }))
+
+        res.json({
+            success: true,
+            user: await getCurrentUserData(access_token)
+        })
+    } catch (error) {
+        res.json(errors.internal)
+        console.log(error)
     }
 })
 
