@@ -18,13 +18,15 @@
     "cookie-parser": "^1.4.4",
     "cookie-universal-nuxt": "^2.0.14",
     "cross-env": "^5.2.0",
+    "crypto": "^1.0.1",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "fs": "^0.0.1-security",
     "net": "^1.0.2",
     "node-fetch": "^2.4.1",
     "nosqlite": "^0.2.2",
-    "nuxt": "^2.4.0"
+    "nuxt": "^2.4.0",
+    "sha3": "^2.0.1"
   },
   "devDependencies": {
     "node-sass": "^4.12.0",

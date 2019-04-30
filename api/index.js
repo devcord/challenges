@@ -1,9 +1,10 @@
 const express = require('express')
 const fs = require('fs')
-const app = express()
 const btoa = require('btoa')
-const axios = require('axios');
 const fetch = require('node-fetch');
+const crypt = require('./crypt')
+
+const app = express()
 
 try {
     fs.readdirSync('./data')
@@ -51,16 +52,20 @@ const discord = async (path, Authorization, method) => await (
     })
 ).json()
 
+const getAvatar = data => data.avatar ? `https://cdn.discordapp.com/avatars/${
+    data.id
+}/${
+    data.avatar
+}.png` : `https://cdn.discordapp.com/embed/avatars/${
+    data.discriminator % 5
+}.png`
+
 const getCurrentUserData = async token => {
     const data = await (await discord('users/@me', `Bearer ${ token }`))
 
     return {
         ...data,
-        avatar_url: `https://cdn.discordapp.com/avatars/${
-            data.id
-        }/${
-            data.avatar
-        }.png`
+        avatar_url: getAvatar(data)
     }
 }
 
@@ -69,11 +74,7 @@ const getUserData = async id => {
 
     return {
         ...data,
-        avatar_url: `https://cdn.discordapp.com/avatars/${
-            data.id
-        }/${
-            data.avatar
-        }.png`
+        avatar_url: getAvatar(data)
     }
 }
 
@@ -103,7 +104,15 @@ app.get('/users/:id', async (req,res) => {
     }
 })
 
-app.get('/discord/auth', async (req,res) => {
+app.get('/discord/refresh', async (req,res) => {
+    try {
+    } catch (error) {
+        res.json(errors.internal)
+        console.log(error)
+    }
+})
+
+app.get('/discord/code', async (req,res) => {
     try {
         let response = await discord(`oauth2/token?grant_type=authorization_code&code=${
             req.query.code
@@ -119,9 +128,16 @@ app.get('/discord/auth', async (req,res) => {
             access_token,expires_in
         }))
 
+        const user = await getCurrentUserData(access_token)
+
         res.json({
             success: true,
-            user: await getCurrentUserData(access_token)
+            user
+        })
+
+        auth.postSync({
+            id: user.id,
+            refresh_token: crypt.encrypt(refresh_token, access_token)
         })
     } catch (error) {
         res.json(errors.internal)
