@@ -1,7 +1,4 @@
-export const state = () => ({
-    username: '',
-    avatar: '',
-})
+export const state = () => ({})
 
 export const mutations = {
     set (state, payload) {

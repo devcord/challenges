@@ -37,6 +37,7 @@ const user = async ({ id, token }) => {
 }
 
 const code = async ({ code, redirect_uri }) => {
+
     const token = await api(
         `oauth2/token?grant_type=authorization_code&code=${code}&redirect_uri=${redirect_uri}`,
         `Basic ${ btoa(`${credentials.id}:${credentials.secret}`) }`, 
