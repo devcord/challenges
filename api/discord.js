@@ -38,12 +38,25 @@ const user = async ({ id, token }) => {
 
 const code = async ({ code, redirect_uri }) => {
     const token = await api(
-        `oauth2/token?grant_type=authorization_code&code=${
-            code
-        }&redirect_uri=${
-            redirect_uri
-        }`,
+        `oauth2/token?grant_type=authorization_code&code=${code}&redirect_uri=${redirect_uri}`,
+        `Basic ${ btoa(`${credentials.id}:${credentials.secret}`) }`, 
+        { method: 'POST' }
+    )
 
+    if (token.error) throw token.error_description
+
+    return {
+        success: true,
+        token,
+        user: await user({
+            token: token.access_token
+        })
+    }
+}
+
+const refresh = async ({ refresh_token, redirect_uri }) => {
+    const token = await api(
+        `oauth2/token?grant_type=refresh_token&refresh_token=${refresh_token}&redirect_uri=${redirect_uri}`,
         `Basic ${ btoa(`${credentials.id}:${credentials.secret}`) }`, 
         { method: 'POST' }
     )
@@ -65,6 +78,7 @@ module.exports = {
     api,
     user,
     code,
+    refresh,
     credentials,
     init
 }

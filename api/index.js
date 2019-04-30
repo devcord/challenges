@@ -70,6 +70,36 @@ app.get('/users/:id', async (req,res) => {
 
 app.get('/discord/refresh', async (req,res) => {
     try {
+        const old_token = JSON.parse(req.cookies.discord_token)
+
+        const response = await discord.refresh({
+            refresh_token: crypt.decrypt(
+                auth.getSync(
+                    old_token.id
+                ).refresh_token,
+                
+                old_token.access_token.padEnd(32,'0')
+            ),
+
+            redirect_uri: encodeURIComponent(getURL(req, 'api/discord/refresh'))
+        })
+        
+        const { access_token, refresh_token, expires_in } = response.token
+        const { user } = response
+    
+        res.cookie('discord_token', JSON.stringify({
+            access_token, expires_in, id: user.id
+        }))
+
+        auth.postSync({
+            id: user.id,
+            refresh_token: crypt.encrypt(refresh_token, access_token.padEnd(32,'0'))
+        })
+    
+        res.json({
+            success: true,
+            user
+        })
     } catch (error) {
         res.json(errors.internal)
         console.log(error)
@@ -87,7 +117,7 @@ app.get('/discord/code', async (req,res) => {
         const { user } = response
     
         res.cookie('discord_token', JSON.stringify({
-            access_token, expires_in
+            access_token, expires_in, id: user.id
         }))
 
         auth.postSync({
