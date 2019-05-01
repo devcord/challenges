@@ -1,20 +1,30 @@
 module.exports = ({
+    get,
     post,
     db,
-    refresh
+    refresh,
+    errors
 }) => {
     const challenge = db.database('challenge')
 
     if (!challenge.existsSync()) challenge.createSync()
 
     post('/submit', async (req,res) => {
-        
+        const {user} = await refresh(req,res)
+        const challenge = challenge.getSync('main')
+
+        if (challenge.submissions[user.id]) {}
     })
     
+    get('/get-challenge', async (req,res) => res.json({
+        success: true,
+        challenge: challenge.getSync('main')
+    }))
+
     post('/set-challenge', async (req,res) => {
         const {user} = await refresh(req,res)
-    
-        if (process.env.ADMIN_ID.indexOf(user.id) < 0) return res.json(
+
+        if (process.env.ADMIN_ID.split(',').indexOf(user.id) < 0) return res.json(
             errors.unauthorized
         )
 
@@ -23,9 +33,16 @@ module.exports = ({
             description
         } = req.body
     
+        console.log(
+            title,
+            description
+        )
+
         let oldChallenge;
     
-        try { oldChallenge = challenge.getSync('main') } catch {}
+        try { 
+            oldChallenge = challenge.getSync('main') 
+        } catch {}
     
         const challenges = challenge.allSync()
     
@@ -35,12 +52,14 @@ module.exports = ({
             title,
             description,
             date: Date.now(),
-            end: Date.now() + 604800000 // 1 week
+            end: Date.now() + 604800000, // 1 week
+            submissions: {}
         })
     
-        oldChallenge.id = oldChallenge.index
-    
-        challenge.postSync(oldChallenge)
+        if (oldChallenge) {
+            oldChallenge.id = oldChallenge.index
+            challenge.postSync(oldChallenge)
+        }
     
         res.json({
             length: challenges.length,

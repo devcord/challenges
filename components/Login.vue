@@ -6,10 +6,15 @@
             </button>
         </a>
 
-        <button id="avatar" :style="{
-            backgroundImage: `url(${user.avatar_url})`
-        }" v-else>
-        </button>
+        <nuxt-link 
+            to="/dashboard" 
+            tag="button" 
+            :title="`${user.username}#${user.discriminator}`" 
+            id="avatar" 
+            :style="{
+                backgroundImage: `url(${user.avatar_url})`
+            }" v-else>
+        </nuxt-link>
     </div>
 </template>
 
@@ -50,6 +55,7 @@
 
         &:hover
             border: none
+
 </style>
 
 <script>
