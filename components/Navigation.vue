@@ -28,29 +28,11 @@
             margin-left: 1em
             padding: 1em 2em
             font-size: 1em
+            box-sizing: border-box
+            height: 3em
 
         a
             text-decoration: none
-
-        #login-button
-            width: 6.5em
-            max-height: 2.3em
-            background-size: auto 80%
-            background-repeat: no-repeat
-            outline: 0
-            border: 0
-            background-position: 0.5em 0.3em
-            background-image: url('../static/discord_small.svg')
-            box-sizing: border-box
-            padding-right: 0.2em
-            font-size: 1.4em
-            border-radius: 4px
-            display: flex
-            justify-content: center
-            align-items: center
-            font-family: 'Uni Sans Heavy'
-            letter-spacing: 0.5px
-            background-color: #7289da
 </style>
 
 <script>
