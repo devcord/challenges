@@ -16,10 +16,19 @@ module.exports = ({
         if (challenge.submissions[user.id]) {}
     })
     
-    get('/get-challenge', async (req,res) => res.json({
-        success: true,
-        challenge: challenge.getSync('main')
-    }))
+    get('/get-challenge', async (req,res) => {
+        try {
+            res.json({
+                success: true,
+                challenge: challenge.getSync('main')
+            })
+        } catch {
+            res.json({
+                success: false,
+                message: `no challenge`
+            })
+        }
+    })
 
     post('/set-challenge', async (req,res) => {
         const {user} = await refresh(req,res)
@@ -30,7 +39,8 @@ module.exports = ({
 
         const { 
             title, 
-            description
+            description,
+            rules
         } = req.body
     
         console.log(
@@ -51,6 +61,7 @@ module.exports = ({
             index: challenges.length+1,
             title,
             description,
+            rules,
             date: Date.now(),
             end: Date.now() + 604800000, // 1 week
             submissions: {}

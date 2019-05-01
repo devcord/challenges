@@ -20,21 +20,21 @@
 
 <style lang="sass" scoped>
     div
-        height: 3em
+        height: 2.4em
 
     #login-button
-        width: 6.5em
+        width: 5.5em
         padding: 0
-        height: 2.2em
+        max-height: 1.8em
         background-size: auto 80%
         background-repeat: no-repeat
         outline: 0
         border: 0
-        background-position: 0.7em 0.3em
+        background-position: 0.3em 0.25em
         background-image: url('../static/discord_small.svg')
         box-sizing: border-box
-        font-size: 1.4em
-        padding-right: 0.8em
+        font-size: 1.3em
+        padding-right: 0.5em
         border-radius: 4px
         display: flex
         justify-content: flex-end
@@ -44,8 +44,8 @@
         background-color: #7289da
 
     #avatar
-        width: 3em
-        height: 3em
+        width: 2.4em
+        height: 2.4em
         background-size: contain
         background-position: center center
         background-repeat: no-repeat

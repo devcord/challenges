@@ -1,6 +1,6 @@
 <template>
     <nuxt-link to="/" tag="section">
-        <img src="@/static/icon.svg"/> <span v-show="!hideText">Devcord</span>
+        <img src="@/static/icon.svg"/> <span v-show="!hideText">Devcord Challenges</span>
     </nuxt-link>
 </template>
 
@@ -9,13 +9,18 @@
         display: flex
         align-items: center
         justify-content: left
-        font-size: 2em
+        font-size: 1.6em
         height: 100%
         width: auto
         cursor: pointer
+
         img
-            width: 1.2em
+            width: 1.1em
             padding-right: 0.3em
+
+        span
+            @media (max-width: 500px)
+                display: none
 </style>
 
 <script>

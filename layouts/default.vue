@@ -28,18 +28,31 @@
             Navigation
         },
 
-        async mounted () {
-            const data = await this.api(`users/@me`)
+        async beforeMount () {
+            (async () => {
+                const data = await this.api(`users/@me`)
 
-            try {
-                if (localStorage.user) this.user = JSON.parse(localStorage.user)
-            } catch {}
+                try {
+                    if (localStorage.user) this.user = JSON.parse(localStorage.user)
+                } catch {}
 
-            if (data.success) {
-                const {user} = data
-                this.$store.commit('set', {user})
-                localStorage.user = JSON.stringify(user)
-            }
+                if (data.success) {
+                    const {user} = data
+                    this.$store.commit('set', {user})
+                    localStorage.user = JSON.stringify(user)
+                }
+            })()
+
+            ;(async () => {
+                const data = await this.api(`get-challenge`)
+
+                console.log(data)
+
+                if (data.success) {
+                    const {challenge} = data
+                    this.$store.commit('set', {challenge})
+                }
+            })()
         }
     }
 </script>
