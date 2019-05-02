@@ -49,8 +49,6 @@
             ;(async () => {
                 const data = await this.api(`get-challenge`)
 
-                console.log(data)
-
                 if (data.success) {
                     const {challenge} = data
                     this.$store.commit('set', {challenge})

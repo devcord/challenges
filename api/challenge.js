@@ -47,11 +47,71 @@ module.exports = ({
             id: user.id,
             url,
             title,
-            description
+            description,
+            upvotes: [],
+            date: Date.now()
         })
 
         res.json({
             success: true
+        })
+    })
+
+    post('/upvote/:id', async (req,res) => {
+        const {user} = await refresh(req,res)
+        const main = submissions.database('main')
+
+        if (!main.existsSync()) return res.json({
+            success: false,
+            message: 'invalid submission'
+        })
+
+        try {
+            const submission = main.getSync(req.params.id)
+
+            if (submission.upvotes.indexOf(user.id) > -1) {
+                submission.upvotes.splice(submission.upvotes.indexOf(user.id), 1)
+
+                db.put(req.params.id, {
+                    upvotes: submission.upvotes
+                })
+
+                res.json({
+                    success: true,
+                    message: 'retracted upvote'
+                })
+            } else {
+                submission.upvotes.push(user.id)
+
+                db.put(req.params.id, {
+                    upvotes: submission.upvotes
+                })
+
+                res.json({
+                    success: true,
+                    message: 'upvoted'
+                })
+            }
+        } catch {
+            res.json({
+                success: false,
+                message: 'invalid submission'
+            })
+        } 
+    })
+
+    get('/submissions', async (req,res) => {
+        const mainSubmissions = []
+
+        const main = submissions.database('main')
+
+        if (main.existsSync()) {
+            mainSubmissions.push(...main.allSync())
+        }
+
+        res.json({
+            success: true,
+            submissions: mainSubmissions
         })
     })
     

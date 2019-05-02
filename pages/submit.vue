@@ -1,9 +1,9 @@
 <template>
     <section>
         <div>
-            <h1><span style="opacity:0.6;">Challenge:</span> {{challenge.title}}</h1>
+            <h1><span style="opacity:0.6;">Challenge:</span> <nuxt-link to="/">{{challenge.title}}</nuxt-link></h1>
             <input 
-                placeholder="Your project's title" 
+                placeholder="Title" 
                 @blur="e => errorCheck('title')" 
                 :class="errors.title ? 'error' : ''"
                 v-model="inputs.title"
@@ -11,7 +11,7 @@
             <p class="error" v-show="errors.title.length > 0">{{errors.title}}</p>
             <input 
                 spellcheck="false"
-                placeholder="Link to your project" 
+                placeholder="URL" 
                 @blur="e => errorCheck('url')" 
                 :class="errors.url ? 'error' : ''"
                 v-model="inputs.url"
@@ -76,13 +76,13 @@
             border-bottom: 2px solid rgb(25,25,25)
 
             &.error
-                border-bottom: 2px solid #FF1744
+                border-bottom: 2px solid #ff3357
 
         .error
-            color: #FF1744
+            color: #ff3357
 
         p.error
-            font-size: 0.8em
+            font-size: 12px
 
         textarea
             height: 12em
@@ -108,6 +108,13 @@
             text-align: center
             font-weight: 200
             margin-bottom: 0.5em
+
+            a
+                color: white
+                text-decoration: none
+                
+                &:hover
+                    color: #90CAF9
 
         a
             color: #90CAF9

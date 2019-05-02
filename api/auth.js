@@ -20,8 +20,6 @@ module.exports = ({
         const { access_token, refresh_token, expires_in } = response.token
         const { user } = response
 
-        console.log('encrypt: '+access_token.padEnd(32,'0'))
-
         res.cookie('discord_token', JSON.stringify({
             access_token, expires_at: expires_in + Date.now(), id: user.id
         }), {
@@ -38,8 +36,6 @@ module.exports = ({
         if (!req.cookies.discord_token) return errors.unauthorized
 
         const old_token = JSON.parse(req.cookies.discord_token)
-
-        console.log('decrypt: '+old_token.access_token.padEnd(32,'0'))
 
         const response = await discord.refresh({
             refresh_token: crypt.decrypt(
