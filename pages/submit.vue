@@ -36,7 +36,7 @@
                 v-model="inputs.description"
             />
             <p class="error" v-show="errors.description.length > 0">{{errors.description}}</p>
-            <button class="submit">Submit</button>
+            <button class="submit" @click="submit()">Submit</button>
         </div>
     </section>
 </template>
@@ -159,7 +159,7 @@
                     break
                     case 'url':
                         this.errors.url = 
-                              url.length > 500 ? 'Title must not be longer than 500 characters' 
+                              url.length > 500 ? 'URL must not be longer than 500 characters' 
                             : !/^https:\/\/(github\.com\/[^\/ ]+\/[^\/ ]+|codepen\.io\/[^\/ ]+\/pen\/[^\/ ]+|jsfiddle\.net\/[^\/ ]+)\S*/.test(url) ? 'Invalid URL'
                             : ''
                     break
@@ -171,8 +171,25 @@
                 }
             },
 
-            submit () {
+            async submit () {
+                const {title, url, description} = this.inputs
 
+                for (const i of Object.keys(this.inputs)) {
+                    this.errorCheck(i)
+                }
+
+                if (Object.values(this.errors).join('').length > 0) return
+
+                const data = await this.api('submit', {
+                    method: 'post',
+                    data: {
+                        title,
+                        url,
+                        description
+                    }
+                })
+
+                console.log(data)
             }
         }
     }

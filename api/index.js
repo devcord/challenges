@@ -30,9 +30,9 @@ const errors = {
 const getURL = (req, path) => `${req.protocol}://${req.get('host')}/${path || ''}`
 
 const get = (path, func) => {
-    app.get(path, (req,res) => {
+    app.get(path, async (req,res) => {
         try {
-            return func(req,res)
+            await func(req,res)
         } catch (error) {
             res.json(errors.internal)
             console.log(error)
@@ -41,9 +41,9 @@ const get = (path, func) => {
 }
 
 const post = (path, func) => {
-    app.post(path, (req,res) => {
+    app.post(path, async (req,res) => {
         try {
-            return func(req,res)
+            await func(req,res)
         } catch (error) {
             res.json(errors.internal)
             console.log(error)
@@ -60,7 +60,8 @@ module.exports = {
     get,
     post,
     db,
-    errors
+    errors,
+    fs
 }
 
 Object.assign(

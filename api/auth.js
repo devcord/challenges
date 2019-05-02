@@ -22,15 +22,15 @@ module.exports = ({
 
         console.log('encrypt: '+access_token.padEnd(32,'0'))
 
-        auth.postSync({
-            id: user.id,
-            refresh_token: crypt.encrypt(refresh_token, access_token.padEnd(32,'0'))
-        })
-
         res.cookie('discord_token', JSON.stringify({
             access_token, expires_at: expires_in + Date.now(), id: user.id
         }), {
             httpOnly: true
+        })
+
+        auth.postSync({
+            id: user.id,
+            refresh_token: crypt.encrypt(refresh_token, access_token.padEnd(32,'0'))
         })
     } 
 
@@ -59,7 +59,7 @@ module.exports = ({
         }
     }
 
-    get('/login', (req, res) => {
+    get('/login', async (req, res) => {
         res.redirect(`https://discordapp.com/oauth2/authorize?client_id=${
             discord.credentials.id
         }&scope=identify&response_type=code&redirect_uri=${
@@ -67,7 +67,7 @@ module.exports = ({
         }`)
     })
 
-    get('/logout', (req, res) => {
+    get('/logout', async (req, res) => {
         if (!req.cookies.discord_token) return res.redirect(getURL(req))
         auth.deleteSync(JSON.parse(req.cookies.discord_token).id)
         res.clearCookie('discord_token')

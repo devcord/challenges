@@ -15,6 +15,7 @@
         text-align: center
         width: 100%
         padding-bottom: 0.5em
+        padding-top: 0.5em
         letter-spacing: 0.5px
         font-size: 0.9em
         opacity: 1
