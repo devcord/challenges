@@ -1,7 +1,8 @@
 <template>
     <section>
+        <img :src="user.avatar_url"/>
         <h1 class="user">{{`${user.username}#${user.discriminator}`}}</h1>
-        <div class="bar"></div>
+        <!-- <div class="bar"></div> -->
         <a href="/api/logout"><h1>Log Out</h1></a>
     </section>
 </template>
@@ -16,6 +17,7 @@
         align-items: center
         padding-bottom: 5em
         box-sizing: border-box
+        flex-direction: column
 
         .bar
             border-left: 1px solid white
@@ -25,19 +27,24 @@
         h1
             font-weight: 200
             margin: 0
-            width: 50%
+            // width: 50%
             text-align: right
             padding: 0
             padding: 10px
-            font-size: 1.3em
+            font-size: 1em
 
         .user
-            opacity: 0.8
+            opacity: 0.5
 
+        img
+            width: 6em
+            border-radius: 6em
+            margin-bottom: 1em
+    
         a
             text-decoration: none
             color: white
-            width: 50%
+            // width: 50%
             
             h1
                 text-align: left

@@ -8,12 +8,14 @@
     margin: 0
     padding: 0
     font-family: Montserrat, sans-serif
+    scrollbar-color: $cyan $darkgray
+    scrollbar-width: thin
 
 html
     background-color: $darkgray
     color: $white
 
-button, input
+button, input, textarea
     outline: none
     border: none
 
@@ -33,3 +35,9 @@ button
 
     &:hover
         border-bottom: 3px solid $cyan
+
+::-webkit-scrollbar 
+    width: 8px
+
+::-webkit-scrollbar-thumb 
+    background-color: $cyan

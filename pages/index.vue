@@ -1,7 +1,14 @@
 <template>
     <section>
         <div v-if="Object.keys(challenge).length > 0">
-            <h1>{{challenge.title}}<span>{{timer || '00:00:00:00'}}</span></h1>
+            <h1>{{challenge.title}}
+            <span class="badge">{{
+                challenge.end - Date.now() > 0 ? 'Submitting' : 'Voting'
+            }}</span>
+            
+            <span v-if="challenge.end - Date.now() > 0" class="timer">{{timer || '00:00:00:00'}}</span>
+            <span v-else class="timer ended"></span>
+            </h1>
             <p>{{challenge.description}}</p>
             <h1>Rules</h1>
             <ul v-if="challenge.rules">
@@ -10,8 +17,11 @@
                 </li>
             </ul>
 
-            <nuxt-link to="/submit" tag="button" class="submit">
-                Submit Your Project
+            <nuxt-link 
+                :to="challenge.end - Date.now() > 0 ? '/submit' : '/vote'" 
+                tag="button" 
+                class="submit">
+                {{challenge.end - Date.now() > 0 ? 'Submit your project' : 'Vote for a project'}}
             </nuxt-link>
         </div>
         <div v-else>
@@ -28,6 +38,14 @@
         overflow: hidden
         overflow-y: auto
         padding-bottom: 2em
+
+        .badge
+            font-size: 14px
+            margin-left: 1em
+            background-color: rgb(25,25,25)
+            padding: 5px 10px
+            box-sizing: border-box
+            height: 100%
 
         div
             height: auto
@@ -67,7 +85,7 @@
                 display: inline-block
                 text-align: center
 
-            span
+            .timer
                 display: flex
                 margin-left: auto
                 font-family: 'Source Code Pro'
@@ -87,6 +105,10 @@
                     letter-spacing: 0.4px
                     padding-top: 0.4em
                     opacity: 0.5
+
+        .timer.ended
+            &::before
+                content: 'Ended'
 
         ul
             padding: 0 2em

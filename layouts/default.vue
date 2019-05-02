@@ -10,7 +10,7 @@
 
 <style lang="sass" scoped>
     #copyright
-        position: absolute
+        position: fixed
         bottom: 0
         text-align: center
         width: 100%

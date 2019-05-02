@@ -31,5 +31,10 @@
     "node-sass": "^4.12.0",
     "nodemon": "^1.18.11",
     "sass-loader": "^7.1.0"
+  },
+  "config": {
+      "nuxt": {
+          "host": "0.0.0.0"
+      }
   }
 }

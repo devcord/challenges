@@ -13,7 +13,20 @@ module.exports = ({
         const {user} = await refresh(req,res)
         const challenge = challenge.getSync('main')
 
-        if (challenge.submissions[user.id]) {}
+        if (challenge.submissions[user.id]) return res.json({
+            success: false,
+            message: 'already submitted'
+        })
+
+        const {
+            url,
+            title,
+            summary
+        } = req.body
+
+        res.json({
+            url, title, summary, date: Date.now()
+        })
     })
     
     get('/get-challenge', async (req,res) => {

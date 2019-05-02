@@ -4,14 +4,15 @@
 
         <nuxt-link to="/submit" alt="Submit" title="Submit" tag="button" :class="``" :style="{
             backgroundImage: 'url(plus.svg)'
-        }">
+        }"></nuxt-link>
 
-        </nuxt-link>
+        <nuxt-link to="/vote" alt="Vote" title="Vote" tag="button" :class="``" :style="{
+            backgroundImage: 'url(heart.svg)'
+        }"></nuxt-link>
 
         <nuxt-link to="/archive" alt="Archive" title="Archive" tag="button" :style="{
             backgroundImage: 'url(grid.svg)'
-        }">
-        </nuxt-link>
+        }"></nuxt-link>
 
         <Login />
     </section>
@@ -43,7 +44,7 @@
         & > button
             margin-left: 0.5em
             filter: invert(100%)
-            background-size: auto 55%
+            background-size: 55%
             image-rendering: pixelated
             border-radius: 3em
 
