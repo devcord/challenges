@@ -67,7 +67,7 @@
             box-sizing: border-box
             margin-bottom: 2em
 
-            @media (max-width: 600px)
+            @media (max-width: 650px)
                 text-align: center
 
         h2
@@ -81,7 +81,7 @@
             justify-content: left
             flex-wrap: wrap
 
-            @media (max-width: 600px)
+            @media (max-width: 650px)
                 display: inline-block
                 text-align: center
 
@@ -93,7 +93,7 @@
                 align-items: center
                 opacity: 0.8
 
-                @media (max-width: 600px)
+                @media (max-width: 650px)
                     margin-left: 0
                     justify-content: center
 

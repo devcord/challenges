@@ -17,7 +17,9 @@
         padding-bottom: 0.5em
         letter-spacing: 0.5px
         font-size: 0.9em
-        opacity: 0.5
+        opacity: 1
+        color: rgb(80,80,80)
+        background-color: #212121
 </style>
 
 <script>

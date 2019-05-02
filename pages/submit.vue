@@ -1,10 +1,22 @@
 <template>
     <section>
         <div>
-            <h1>{{challenge.title}}</h1>
-            <input placeholder="Your project's title" class="error"/>
-            <p class="error">This field is required.</p>
-            <input placeholder="Link to your project" />
+            <h1><span style="opacity:0.6;">Challenge:</span> {{challenge.title}}</h1>
+            <input 
+                placeholder="Your project's title" 
+                @blur="e => errorCheck('title')" 
+                :class="errors.title ? 'error' : ''"
+                v-model="inputs.title"
+            />
+            <p class="error" v-show="errors.title.length > 0">{{errors.title}}</p>
+            <input 
+                spellcheck="false"
+                placeholder="Link to your project" 
+                @blur="e => errorCheck('url')" 
+                :class="errors.url ? 'error' : ''"
+                v-model="inputs.url"
+            />
+            <p class="error" v-show="errors.url.length > 0">{{errors.url}}</p>
             <p>
                 *Must be a <a 
                     href="https://github.com/" 
@@ -17,7 +29,13 @@
                     target="_blank"
                 >JSFiddle</a> link.
             </p>
-            <textarea placeholder="Brief description of your project, not required" />
+            <textarea 
+                placeholder="Brief description of your project, not required" 
+                @blur="e => errorCheck('description')" 
+                :class="errors.description ? 'error' : ''"
+                v-model="inputs.description"
+            />
+            <p class="error" v-show="errors.description.length > 0">{{errors.description}}</p>
             <button class="submit">Submit</button>
         </div>
     </section>
@@ -27,7 +45,7 @@
     section
         margin: auto
         height: calc(100vh - 6em)
-        padding-bottom: 4em
+        padding-bottom: 6em
         box-sizing: border-box
         overflow: hidden
         overflow-y: auto
@@ -38,9 +56,11 @@
             width: 90vw
             max-width: 600px
             justify-content: center
+            align-items: flex-start
             margin: auto
             padding: 2em 0
-
+            box-sizing: border-box
+            min-height: 100%
 
         input,textarea
             font-size: 1em
@@ -60,6 +80,9 @@
 
         .error
             color: #FF1744
+
+        p.error
+            font-size: 0.8em
 
         textarea
             height: 12em
@@ -97,6 +120,22 @@
 
 <script>
     export default {
+        data () {
+            return {
+                errors: {
+                    title: '',
+                    url: '',
+                    description: ''
+                },
+
+                inputs: {
+                    title: '',
+                    url: '',
+                    description: ''
+                }
+            }
+        },
+
         computed: {
             user () {
                 return this.$store.state.user
@@ -106,5 +145,35 @@
                 return this.$store.state.challenge
             }
         },
+
+        methods: {
+            errorCheck (name) {
+                const {title, url, description} = this.inputs
+
+                switch (name) {
+                    case 'title':
+                        this.errors.title = 
+                              title.length > 50 ? 'Title must not be longer than 32 characters'
+                            : title.length <= 2 ? 'Title must be longer than 3 characters'
+                            : ''
+                    break
+                    case 'url':
+                        this.errors.url = 
+                              url.length > 500 ? 'Title must not be longer than 500 characters' 
+                            : !/^https:\/\/(github\.com\/[^\/ ]+\/[^\/ ]+|codepen\.io\/[^\/ ]+\/pen\/[^\/ ]+|jsfiddle\.net\/[^\/ ]+)\S*/.test(url) ? 'Invalid URL'
+                            : ''
+                    break
+                    case 'description':
+                        this.errors.description = 
+                              description.length > 500 ? 'Description must not be longer than 500 characters'
+                            : ''
+                    break
+                }
+            },
+
+            submit () {
+
+            }
+        }
     }
 </script>
