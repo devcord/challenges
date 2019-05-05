@@ -29,13 +29,13 @@
                     target="_blank"
                 >JSFiddle</a> link.
             </p>
-            <textarea 
+            <!-- <textarea 
                 placeholder="Brief description of your project, not required" 
                 @blur="e => errorCheck('description')" 
                 :class="errors.description ? 'error' : ''"
                 v-model="inputs.description"
-            />
-            <p class="error" v-show="errors.description.length > 0">{{errors.description}}</p>
+            /> -->
+            <!-- <p class="error" v-show="errors.description.length > 0">{{errors.description}}</p> -->
             <button class="submit" @click="submit()">Submit</button>
         </div>
     </section>
@@ -112,7 +112,7 @@
             a
                 color: white
                 text-decoration: none
-                
+
                 &:hover
                     color: #90CAF9
 
@@ -138,7 +138,7 @@
                 inputs: {
                     title: '',
                     url: '',
-                    description: ''
+                    // description: ''
                 }
             }
         },
@@ -155,7 +155,7 @@
 
         methods: {
             errorCheck (name) {
-                const {title, url, description} = this.inputs
+                const {title, url} = this.inputs
 
                 switch (name) {
                     case 'title':
@@ -170,16 +170,16 @@
                             : !/^https:\/\/(github\.com\/[^\/ ]+\/[^\/ ]+|codepen\.io\/[^\/ ]+\/pen\/[^\/ ]+|jsfiddle\.net\/[^\/ ]+)\S*/.test(url) ? 'Invalid URL'
                             : ''
                     break
-                    case 'description':
-                        this.errors.description = 
-                              description.length > 500 ? 'Description must not be longer than 500 characters'
-                            : ''
-                    break
+                    // case 'description':
+                    //     this.errors.description = 
+                    //           description.length > 500 ? 'Description must not be longer than 500 characters'
+                    //         : ''
+                    // break
                 }
             },
 
             async submit () {
-                const {title, url, description} = this.inputs
+                const {title, url} = this.inputs
 
                 for (const i of Object.keys(this.inputs)) {
                     this.errorCheck(i)
@@ -191,8 +191,7 @@
                     method: 'post',
                     data: {
                         title,
-                        url,
-                        description
+                        url
                     }
                 })
 

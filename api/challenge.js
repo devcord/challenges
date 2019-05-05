@@ -26,8 +26,7 @@ module.exports = ({
 
         const {
             url,
-            title,
-            description
+            title
         } = req.body
 
         const error = 
@@ -35,7 +34,6 @@ module.exports = ({
             : title.length <= 2 ? 'Title must be longer than 2 characters'
             : url.length > 500 ? 'URL must not be longer than 500 characters' 
             : !/^https:\/\/(github\.com\/[^\/ ]+\/[^\/ ]+|codepen\.io\/[^\/ ]+\/pen\/[^\/ ]+|jsfiddle\.net\/[^\/ ]+)\S*/.test(url) ? 'Invalid URL'
-            : description.length > 500 ? 'Description must not be longer than 500 characters'
             : ''
 
         if (error) return res.json({
@@ -47,7 +45,6 @@ module.exports = ({
             id: user.id,
             url,
             title,
-            description,
             upvotes: [],
             date: Date.now()
         })
@@ -69,34 +66,42 @@ module.exports = ({
         try {
             const submission = main.getSync(req.params.id)
 
+            if (submission.id === user.id) return res.json({
+                success: false,
+                message: `must not be own submission`
+            })
+
             if (submission.upvotes.indexOf(user.id) > -1) {
                 submission.upvotes.splice(submission.upvotes.indexOf(user.id), 1)
 
-                db.put(req.params.id, {
+                main.putSync(req.params.id, {
                     upvotes: submission.upvotes
                 })
 
                 res.json({
                     success: true,
-                    message: 'retracted upvote'
+                    message: 'retracted upvote',
+                    upvotes: submission.upvotes
                 })
             } else {
                 submission.upvotes.push(user.id)
 
-                db.put(req.params.id, {
+                main.putSync(req.params.id, {
                     upvotes: submission.upvotes
                 })
 
                 res.json({
                     success: true,
-                    message: 'upvoted'
+                    message: 'upvoted',
+                    upvotes: submission.upvotes
                 })
             }
-        } catch {
+        } catch (error) {
             res.json({
                 success: false,
                 message: 'invalid submission'
             })
+            console.log(error)
         } 
     })
 
