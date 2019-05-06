@@ -18,7 +18,6 @@
     "cookie-parser": "^1.4.4",
     "cookie-universal-nuxt": "^2.0.14",
     "cross-env": "^5.2.0",
-    "crypto": "^1.0.1",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "fs": "^0.0.1-security",
@@ -33,8 +32,8 @@
     "sass-loader": "^7.1.0"
   },
   "config": {
-      "nuxt": {
-          "host": "0.0.0.0"
-      }
+    "nuxt": {
+      "host": "0.0.0.0"
+    }
   }
 }
