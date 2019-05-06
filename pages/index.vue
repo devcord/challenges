@@ -32,8 +32,8 @@
 
 <style lang="sass" scoped>
     section
-        height: calc(100vh - 8em)
-        margin-bottom: 2em
+        height: auto
+        min-height: calc(100vh - 6em)
         box-sizing: border-box
         overflow: hidden
         overflow-y: auto
@@ -48,7 +48,7 @@
 
         div
             height: auto
-            min-height: 100%
+            min-height: calc(100vh - 6em)
             display: flex
             width: 90vw
             max-width: 800px
