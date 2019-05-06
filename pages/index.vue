@@ -32,12 +32,11 @@
 
 <style lang="sass" scoped>
     section
-        height: calc(100vh - 6em)
+        height: calc(100vh - 8em)
         margin-bottom: 2em
         box-sizing: border-box
         overflow: hidden
         overflow-y: auto
-        padding-bottom: 2em
 
         .badge
             font-size: 14px
@@ -69,9 +68,6 @@
 
             @media (max-width: 650px)
                 text-align: center
-
-        h2
-            opacity: 0.6
 
         h1, h2
             font-weight: 200
@@ -105,6 +101,10 @@
                     letter-spacing: 0.4px
                     padding-top: 0.4em
                     opacity: 0.5
+
+        h2
+            opacity: 0.6
+            justify-content: center
 
         .timer.ended
             &::before
@@ -159,8 +159,8 @@
             if (process.client) this.window = window
         },
 
-        mounted () {
-            setInterval(() => {
+        methods: {
+            advanceTimer () {
                 if (this.challenge.end) Vue.set(
                     this,
                     'timer',
@@ -176,7 +176,11 @@
                         ).toTimeString().split(' ')[0].split(':')
                     ].join(':')
                 )
-            }, 1000)
+            }
+        },
+
+        mounted () {
+            setInterval(this.advanceTimer, 20)
         }
     }
 </script>

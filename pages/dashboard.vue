@@ -9,13 +9,13 @@
 
 <style lang="sass" scoped>
     section
-        height: calc(100vh - 5em)
+        height: calc(100vh - 6em)
         width: 100vw
         overflow: hidden
         display: flex
         justify-content: center
         align-items: center
-        padding-bottom: 5em
+        padding-bottom: 2em
         box-sizing: border-box
         flex-direction: column
 

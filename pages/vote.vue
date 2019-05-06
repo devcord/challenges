@@ -29,7 +29,9 @@
                 Vue.set(
                     this, 
                     'submissions', 
-                    data.submissions
+                    data.submissions.sort(
+                        (a,b) => b.date - a.date
+                    )
                 )
         }
     }

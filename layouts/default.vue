@@ -3,14 +3,13 @@
     <Navigation />
     <nuxt />
     <div id="copyright">
-        Copyright Devcord © 2018
+        Copyright Devcord © 2019
     </div>
   </div>
 </template>
 
 <style lang="sass" scoped>
     #copyright
-        position: fixed
         bottom: 0
         text-align: center
         width: 100%
