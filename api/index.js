@@ -27,7 +27,7 @@ const errors = {
     }
 }
 
-const getURL = (req, path) => `${req.protocol}://${req.get('host')}/${path || ''}`
+const getURL = (req, path) => `http${process.env.HTTPS ? 's' : ''}://${req.get('host')}/${path || ''}`
 
 const get = (path, func) => {
     app.get(path, async (req,res) => {
