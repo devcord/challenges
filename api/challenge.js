@@ -101,7 +101,6 @@ module.exports = ({
                 success: false,
                 message: 'invalid submission'
             })
-            console.log(error)
         } 
     })
 
@@ -134,6 +133,19 @@ module.exports = ({
         }
     })
 
+    get('/all-challenges', async (req,res) => {
+        const challenges = challenge.allSync()
+        
+        for (const i in challenges) {
+            if (challenges[i].id === 'main') challenges.splice(i,1)
+        }
+
+        res.json({
+            success: true,
+            challenges
+        })
+    })
+
     post('/set-challenge', async (req,res) => {
         const {user} = await refresh(req,res)
 
@@ -146,11 +158,6 @@ module.exports = ({
             description,
             rules
         } = req.body
-    
-        console.log(
-            title,
-            description
-        )
 
         let oldChallenge;
     
@@ -169,14 +176,20 @@ module.exports = ({
             date: Date.now(),
             end: Date.now() + 604800000, // 1 week
         })
+
+        if (fs.readdirSync('./data/submissions').indexOf('main') > -1) {
+            const main = submissions.database('main')
+
+            if (oldChallenge) oldChallenge.winner = main.allSync().sort(
+                (a,b) => Object.keys(b.upvotes).length - Object.keys(a.upvotes).length
+            )[0]
+
+            fs.renameSync('./data/submissions/main', './data/submissions/'+oldChallenge.id)
+        }
     
         if (oldChallenge) {
             oldChallenge.id = oldChallenge.index
             challenge.postSync(oldChallenge)
-        }
-
-        if (fs.readdirSync('./data/submissions').indexOf('main') > -1) {
-            fs.renameSync('./data/submissions/main', './data/submissions/'+oldChallenge.id)
         }
     
         res.json({

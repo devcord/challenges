@@ -11,40 +11,48 @@
                 Random
             </button>
         </section>
-        <div v-for="(i,key) in submissions.sort(
-            (a,b) => 
-                  filter === 'date' ? b.date - a.date 
-                : filter === 'upvotes' ? Object.keys(b.upvotes).length - Object.keys(a.upvotes).length
-                : 0.5 - Math.random()
-        )" :key="key" :style="{
-                backgroundImage: `url(${i.user.avatar_url}?size=512)`
-            }">
-            <!-- <img :src="i.user.avatar_url" /> -->
-            <div class="info">
-                <h1 class="title">
-                    {{i.title}}
-                    <!-- <span class="date">{{new Date(i.date).toLocaleString().split(',')[0]}}</span> -->
-                </h1>
-                <h1 class="username">{{i.user.username}}#{{i.user.discriminator}}</h1>
-                <!-- <p class="description">{{i.description}} </p> -->
-                <a target="_blank" :href="i.url" class="url">
-                    <button
-                        :style="{
-                            backgroundImage: `url(${getName(i.url).toLowerCase()}.svg)`
-                        }"
-                    ></button>
-                </a>
-                <div class="upvote" v-if="canUpvote">
-                    <span>{{Object.keys(i.upvotes).length}}</span>
-                    <button 
-                        :vote="user.id && i.id !== user.id ? 'true' : 'false'" 
-                        @click="upvote(i.id,key)"
-                        :style="{
-                            filter: i.upvotes.indexOf(user.id) > -1 ? 'invert(10%)' : 'invert(100%)'
-                        }"
-                    ></button>
+        <div v-if="submissions.length > 0">
+            <div v-for="(i,key) in submissions.sort(
+                (a,b) => 
+                    filter === 'date' ? b.date - a.date 
+                    : filter === 'upvotes' ? Object.keys(b.upvotes).length - Object.keys(a.upvotes).length
+                    : 0.5 - Math.random()
+            )" :id="i.id" :key="key" :style="{
+                    backgroundImage: `url(${i.user.avatar_url}?size=512)`
+                }">
+                <!-- <img :src="i.user.avatar_url" /> -->
+                <div class="info">
+                    <h1 class="title">
+                        {{i.title}}
+                        <!-- <span class="date">{{new Date(i.date).toLocaleString().split(',')[0]}}</span> -->
+                    </h1>
+                    <h1 class="username">{{i.user.username}}#{{i.user.discriminator}}</h1>
+                    <!-- <p class="description">{{i.description}} </p> -->
+                    <a target="_blank" :href="i.url" class="url">
+                        <button
+                            :style="{
+                                backgroundImage: `url(${getName(i.url).toLowerCase()}.svg)`
+                            }"
+                        ></button>
+                    </a>
+                    <div class="upvote" v-if="canUpvote">
+                        <span>{{Object.keys(i.upvotes).length}}</span>
+                        <button 
+                            :vote="user.id && i.id !== user.id ? 'true' : 'false'" 
+                            @click="upvote(i.id,key)"
+                            :style="{
+                                filter: i.upvotes.indexOf(user.id) > -1 ? 'invert(10%)' : 'invert(100%)'
+                            }"
+                        ></button>
+                    </div>
                 </div>
             </div>
+        </div>
+
+        <div class="no-found" v-else>
+            <h2>
+                No submissions found.
+            </h2>
         </div>
     </section>
 </template>
@@ -101,11 +109,27 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+    .no-found
+        width: 100%
+        height: 100%
+        display: flex
+        justify-content: center
+        align-items: center
+
+        h2
+            font-weight: 200
+            opacity: 0.6
+            font-size: 1em
+
     section
         padding: 0.5em
+        padding-bottom: 0.3em
         box-sizing: border-box
 
-        & > div
+        & > div 
+            min-height: calc(100vh - 10.5em)
+
+        & > div > div
             margin: 0.5em
             display: inline-block
             height: 0
@@ -145,7 +169,7 @@ export default {
                 display: flex
                 align-items: center
                 color: gray
-                font-size: 12px
+                font-size: 14px
 
                 span
                     margin: 0.2em
@@ -153,8 +177,8 @@ export default {
                 button
                     margin-left: 0.2em
                     border: none !important
-                    width: 2em
-                    height: 2em
+                    width: 2.7em
+                    height: 2.7em
                     background-color: rgb(230,230,230)
                     display: inline-block
                     background-image: url('../static/upvote.svg')
@@ -226,6 +250,7 @@ export default {
                     filter: invert(100%)
 
     section.filter
+        padding: 0.5em
         width: 100%
         display: flex
         justify-content: center

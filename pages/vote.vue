@@ -3,6 +3,7 @@
         <Submissions :submissions="submissions" :canUpvote="true"/>
     </section>
 </template>
+
 <script>
     import Vue from 'vue'
     import Submissions from '~/components/Submissions'
