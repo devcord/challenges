@@ -12,7 +12,7 @@ export const mutations = {
 export const actions = {
     nuxtServerInit ({ commit }, { req }) {
         return commit('set', {
-            host: `${req.protocol}://${req.headers.host}`
+            host: `http${process.env.HTTPS ? 's' : ''}://${req.headers.host}`
         })
     }
 }
