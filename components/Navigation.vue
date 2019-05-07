@@ -45,7 +45,7 @@
             margin-left: 0.5em
             filter: invert(100%)
             background-size: 55%
-            image-rendering: pixelated
+            image-rendering: optimizeQuality
             border-radius: 3em
 
             &:hover

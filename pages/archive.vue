@@ -1,20 +1,27 @@
 <template>
   <section>
-        <div v-for="(i,key) in challenges" :key="key" :style="{
+        <div v-for="(challenge,key) in challenges" :key="key" :style="{
             borderBottom: key !== challenges.length-1 
                 ? '1px solid rgb(60,60,60)' 
                 : '1px solid transparent'
         }">
             <div>
-                <h1 class="title">{{i.title}}</h1>
-                <h3 class="date">{{new Date(i.date).toLocaleString().split(',')[0]}}</h3>
+                <h1 class="title">{{challenge.title}}</h1>
+                <h3 class="date">{{new Date(challenge.date).toLocaleString().split(',')[0]}}</h3>
             </div>
-            <p class="desc">{{i.description}}</p>
+            <p class="desc">{{challenge.description}}</p>
+            
+            <ul v-if="challenge.rules">
+                <li v-for="i in challenge.rules" :key="i">
+                    {{i}}
+                </li>
+            </ul>
+
             <div class="bottom">
                 <div class="winner">
                     <span class="badge">Winner</span>
-                    <h3 class="username">{{`${i.user.username}#${i.user.discriminator}`}}</h3>
-                    <img :src="i.user.avatar_url" />
+                    <h3 class="username">{{`${challenge.user.username}#${challenge.user.discriminator}`}}</h3>
+                    <img :src="challenge.user.avatar_url" />
                 </div>
 
                 <button class="submit">More Submissions →</button>
@@ -27,6 +34,13 @@
     section
         padding: 0 1em
         min-height: calc(100vh - 6em)
+
+        ul
+            padding: 0em 1em 1em
+            box-sizing: border-box
+            opacity: 0.6
+            font-size: 12px
+            letter-spacing: 0.25px
 
         .badge
             font-size: 14px
@@ -138,7 +152,21 @@
             }
         },
 
+        methods: {
+            getName (url) {
+                return ['GitHub', 'CodePen', 'JSFiddle'][
+                    ['github', 'codepen', 'jsfiddle'].indexOf(
+                        url.match(/(github|codepen|jsfiddle)/i)[0]
+                    )
+                ]
+            }
+        },
+
         async mounted () {
+            this.$store.commit('set', {
+                pageTitle: 'Archive'
+            })
+
             const data = await this.api('all-challenges')
 
             for (const i in data.challenges){

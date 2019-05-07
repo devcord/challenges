@@ -20,6 +20,10 @@
         },
 
         async mounted () {
+            this.$store.commit('set', {
+                pageTitle: 'Vote'
+            })
+
             const data = await this.api('submissions')
 
             for (const i in data.submissions)

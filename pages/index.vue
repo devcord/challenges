@@ -179,6 +179,10 @@
 
         mounted () {
             setInterval(this.advanceTimer, 20)
+
+            this.$store.commit('set', {
+                pageTitle: 'Home'
+            })
         }
     }
 </script>

@@ -197,6 +197,12 @@
 
                 console.log(data)
             }
+        },
+
+        mounted () {
+            this.$store.commit('set', {
+                pageTitle: 'Submit'
+            })
         }
     }
 </script>

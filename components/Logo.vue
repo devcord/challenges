@@ -1,6 +1,6 @@
 <template>
     <nuxt-link to="/" tag="section">
-        <img src="@/static/icon.svg"/> <span v-show="!hideText">Devcord Challenges</span>
+        <img src="@/static/icon.svg"/> <span v-show="!hideText">{{title}}</span>
     </nuxt-link>
 </template>
 
@@ -19,12 +19,18 @@
             padding-right: 0.3em
 
         span
-            @media (max-width: 600px)
+            @media (max-width: 450px)
                 display: none
 </style>
 
 <script>
     export default {
-        props: ['hideText']
+        props: ['hideText'],
+
+        computed: {
+            title () {
+                return this.$store.state.pageTitle 
+            } 
+        },
     }
 </script>

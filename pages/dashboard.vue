@@ -10,7 +10,7 @@
 <style lang="sass" scoped>
     section
         height: calc(100vh - 6em)
-        width: 100vw
+        width: 100%
         overflow: hidden
         display: flex
         justify-content: center
@@ -63,6 +63,12 @@
             user () {
                 return this.$store.state.user
             }
+        },
+
+        mounted () {
+            this.$store.commit('set', {
+                pageTitle: 'Dashboard'
+            })
         }
     }
 </script>
