@@ -22,9 +22,17 @@
                     <span class="badge">Winner</span>
                     <h3 class="username">{{`${challenge.user.username}#${challenge.user.discriminator}`}}</h3>
                     <img :src="challenge.user.avatar_url" />
+                    
+                    <a target="_blank" :href="challenge.winner.url" class="url">
+                        <button
+                            :style="{
+                                backgroundImage: `url(${getName(challenge.winner.url).toLowerCase()}.svg)`
+                            }"
+                        ></button>
+                    </a>
                 </div>
 
-                <button class="submit">More Submissions →</button>
+                <nuxt-link tag="button" :to="`archive/${challenge.id}`" class="submit">More Submissions →</nuxt-link>
             </div>
         </div>
   </section>
@@ -123,6 +131,23 @@
             justify-content: flex-start
             margin-right: 1em
             margin-bottom: 0.5em
+            flex-wrap: wrap
+
+            .url
+                height: 2.5em
+                width: 2.5em
+                margin-left: 0.3em
+                
+                button
+                    height: 100%
+                    width: 100%
+                    background-size: contain
+                    background-repeat: no-repeat
+                    font-size: 14px
+                    border: none !important
+                    border-radius: 4px
+                    opacity: 0.7
+                    filter: invert(100%)
 
         span
             margin-right: 0.3em

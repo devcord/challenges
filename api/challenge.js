@@ -118,12 +118,41 @@ module.exports = ({
             submissions: mainSubmissions
         })
     })
+
+    get('/submissions/:id', async (req,res) => {
+        const mainSubmissions = []
+
+        const main = submissions.database(req.params.id)
+
+        if (main.existsSync()) {
+            mainSubmissions.push(...main.allSync())
+        }
+
+        res.json({
+            success: true,
+            submissions: mainSubmissions
+        })
+    })
     
     get('/get-challenge', async (req,res) => {
         try {
             res.json({
                 success: true,
                 challenge: challenge.getSync('main')
+            })
+        } catch {
+            res.json({
+                success: false,
+                message: `no challenge`
+            })
+        }
+    })
+    
+    get('/get-challenge/:id', async (req,res) => {
+        try {
+            res.json({
+                success: true,
+                challenge: challenge.getSync(req.params.id)
             })
         } catch {
             res.json({

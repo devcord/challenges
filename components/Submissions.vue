@@ -31,7 +31,7 @@
                     <a target="_blank" :href="i.url" class="url">
                         <button
                             :style="{
-                                backgroundImage: `url(${getName(i.url).toLowerCase()}.svg)`
+                                backgroundImage: `url(/${getName(i.url).toLowerCase()}.svg)`
                             }"
                         ></button>
                     </a>
