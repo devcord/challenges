@@ -65,9 +65,7 @@
             padding: 1em
             box-sizing: border-box
             margin-bottom: 2em
-
-            @media (max-width: 650px)
-                text-align: center
+            text-align: justify
 
         h1, h2
             font-weight: 200
