@@ -171,7 +171,7 @@
                         /* HH, MM, SS */
                         ...new Date(
                             this.challenge.end - Date.now()
-                        ).toTimeString().split(' ')[0].split(':')
+                        ).toUTCString().split(' ')[4].split(':')
                     ].join(':')
                 )
             }
