@@ -20,7 +20,7 @@ module.exports = ({
         try {
             if (main.getSync(user.id)) return res.json({
                 success: false,
-                message: 'already submitted'
+                message: 'You\'ve already submitted!'
             })
         } catch {}
 

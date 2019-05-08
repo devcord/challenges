@@ -5,7 +5,7 @@
             <input 
                 placeholder="Title" 
                 @blur="e => errorCheck('title')" 
-                :class="errors.title ? 'error' : ''"
+                :class="`${errors.title ? 'error' : ''} ${!user.id ? 'disabled' : ''}`"
                 v-model="inputs.title"
             />
             <p class="error" v-show="errors.title.length > 0">{{errors.title}}</p>
@@ -13,11 +13,11 @@
                 spellcheck="false"
                 placeholder="URL" 
                 @blur="e => errorCheck('url')" 
-                :class="errors.url ? 'error' : ''"
+                :class="`${errors.url ? 'error' : ''} ${!user.id ? 'disabled' : ''}`"
                 v-model="inputs.url"
             />
             <p class="error" v-show="errors.url.length > 0">{{errors.url}}</p>
-            <p>
+            <p :class="`${!user.id ? 'disabled' : ''}`">
                 *Must be a <a 
                     href="https://github.com/" 
                     target="_blank"
@@ -36,7 +36,9 @@
                 v-model="inputs.description"
             /> -->
             <!-- <p class="error" v-show="errors.description.length > 0">{{errors.description}}</p> -->
-            <button class="submit" @click="submit()">Submit</button>
+            <p class="error" v-show="errors.internal.length > 0">{{errors.internal}}</p>
+            <button :class="`submit${!user.id ? ' disabled' : ''}`" @click="submit()">Submit</button>
+            <p class="please-log-in" v-show="!user.id">Please <a href="/api/login">log in</a> to submit.</p>
         </div>
     </section>
 </template>
@@ -123,16 +125,30 @@
             margin-top: 10px
             margin-bottom: 15px
             opacity: 0.7
+
+        .please-log-in
+            margin: 2em 0 0 0
+            text-align: center
+            width: 100%
+            height: 0
+
+    .disabled
+        pointer-events: none
+        opacity: 0.4
+        user-select: none
 </style>
 
 <script>
+    import Vue from 'vue'
+
     export default {
         data () {
             return {
                 errors: {
                     title: '',
                     url: '',
-                    description: ''
+                    description: '',
+                    internal: '',
                 },
 
                 inputs: {
@@ -195,7 +211,8 @@
                     }
                 })
 
-                console.log(data)
+                if (data.success) this.$router.push('/vote')
+                else Vue.set(this.errors, 'internal', data.message) 
             }
         },
 
