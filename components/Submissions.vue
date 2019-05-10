@@ -12,12 +12,7 @@
             </button>
         </section>
         <div v-if="submissions.length > 0">
-            <div v-for="(i,key) in submissions.sort(
-                (a,b) => 
-                    filter === 'date' ? b.date - a.date 
-                    : filter === 'upvotes' ? Object.keys(b.upvotes).length - Object.keys(a.upvotes).length
-                    : 0.5 - Math.random()
-            )" :id="i.id" :key="key" :style="{
+            <div v-for="(i,key) in submissions" :id="i.id" :key="key" :style="{
                     backgroundImage: `url(${i.user.avatar_url}?size=512)`
                 }">
                 <!-- <img :src="i.user.avatar_url" /> -->
@@ -97,6 +92,12 @@ export default {
 
             setFilter (filter) {
                 Vue.set(this, 'filter', filter)
+                this.submissions = this.submissions.sort(
+                    (a,b) => 
+                        filter === 'date' ? b.date - a.date 
+                        : filter === 'upvotes' ? Object.keys(b.upvotes).length - Object.keys(a.upvotes).length
+                        : 0.5 - Math.random()
+                )
             }
         },
 
@@ -168,7 +169,7 @@ export default {
                 right: 0
                 display: flex
                 align-items: center
-                color: gray
+                color: $gray
                 font-size: 14px
 
                 span
@@ -179,7 +180,7 @@ export default {
                     border: none !important
                     width: 2.7em
                     height: 2.7em
-                    background-color: rgb(230,230,230)
+                    background-color: $lightgray
                     display: inline-block
                     background-image: url('../static/upvote.svg')
                     background-size: 55%
@@ -192,6 +193,7 @@ export default {
                     display: block
                     pointer-events: none
                     opacity: 0.5
+                    background-color: transparent
 
             .info
                 display: flex
@@ -206,7 +208,7 @@ export default {
                 left: 0
                 width: 100%
                 height: 100%
-                background-color: rgba(37,37,37,0.8)
+                background-color: rgba($infogray,0.8)
 
             img
                 margin-right: 1em
@@ -261,7 +263,7 @@ export default {
         margin: 0
         font-size: 1em
         padding: 1em
-        background-color: rgb(25,25,25)
+        background-color: $cyan
         border: none !important
         transition: background-color 0.1s, color 0.1s
         width: 10em

@@ -41,7 +41,7 @@
         align-items: center
         font-family: 'Uni Sans Heavy'
         letter-spacing: 0.5px
-        background-color: #7289da
+        background-color: $discord
 
     #avatar
         width: 2.4em

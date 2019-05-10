@@ -13,6 +13,7 @@
         height: 100%
         width: auto
         cursor: pointer
+        filter: saturate(70%) brightness(100%)
 
         img
             width: 1.1em

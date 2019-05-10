@@ -19,7 +19,7 @@
         font-size: 0.9em
         opacity: 1
         color: rgb(80,80,80)
-        background-color: #212121
+        background-color: $darkgray
 </style>
 
 <script>

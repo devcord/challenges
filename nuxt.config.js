@@ -47,6 +47,7 @@ module.exports = {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     'cookie-universal-nuxt',
+    '@nuxtjs/style-resources',
   ],
   /*
   ** Axios module configuration
@@ -68,5 +69,11 @@ module.exports = {
     */
     extend(config, ctx) {
     }
+  },
+
+  styleResources: {
+    sass: [
+      './assets/sass/color.sass'
+    ]
   }
 }

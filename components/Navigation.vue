@@ -26,6 +26,7 @@
         width: 100%
         box-sizing: border-box
         height: 4em
+        background-color: $darkergray
 
         section
             margin-right: auto
