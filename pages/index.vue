@@ -9,7 +9,7 @@
             <span v-if="challenge.end - Date.now() > 0" class="timer">{{timer || '00:00:00:00'}}</span>
             <span v-else class="timer ended"></span>
             </h1>
-            <p>{{challenge.description}}</p>
+            <p v-html="challenge.description"></p>
             <h1>Rules</h1>
             <ul v-if="challenge.rules">
                 <li v-for="i in challenge.rules" :key="i">
@@ -29,6 +29,7 @@
         </div>
     </section>
 </template>
+
 
 <style lang="sass" scoped>
     section
