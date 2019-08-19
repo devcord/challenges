@@ -9,7 +9,7 @@
                 <h1 class="title">{{challenge.title}}</h1>
                 <h3 class="date">{{new Date(challenge.date).toLocaleString().split(',')[0]}}</h3>
             </div>
-            <p class="desc">{{challenge.description}}</p>
+            <p class="desc" v-html="challenge.description"></p>
             
             <ul v-if="challenge.rules">
                 <li v-for="i in challenge.rules" :key="i">
@@ -196,7 +196,7 @@
 
             for (const i in data.challenges){
                 const {user} = await this.api('users/' + data.challenges[i].winner.id)
-                 console.log(user)
+                console.log(user)
                 data.challenges[i].user = user
             }
            
@@ -204,7 +204,7 @@
             if (data.success) Vue.set(
                 this,
                 'challenges',
-                [...data.challenges,...data.challenges]
+                [...data.challenges]
             )
         }
     }
