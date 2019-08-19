@@ -203,7 +203,7 @@ module.exports = ({
             description,
             rules,
             date: Date.now(),
-            end: Date.now() + 604800000, // 1 week
+            end: Date.now() + (604800000*2), // 2 weeks
         })
 
         if (fs.readdirSync('./data/submissions').indexOf('main') > -1) {
