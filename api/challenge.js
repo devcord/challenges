@@ -33,7 +33,6 @@ module.exports = ({
               title.length > 50 ? 'Title must not be longer than 32 characters'
             : title.length <= 2 ? 'Title must be longer than 2 characters'
             : url.length > 500 ? 'URL must not be longer than 500 characters' 
-            : !/^https:\/\/(github\.com\/[^\/ ]+\/[^\/ ]+|codepen\.io\/[^\/ ]+\/pen\/[^\/ ]+|jsfiddle\.net\/[^\/ ]+)\S*/.test(url) ? 'Invalid URL'
             : ''
 
         if (error) return res.json({

@@ -17,7 +17,7 @@
                 v-model="inputs.url"
             />
             <p class="error" v-show="errors.url.length > 0">{{errors.url}}</p>
-            <p :class="`${!user.id ? 'disabled' : ''}`">
+            <!-- <p :class="`${!user.id ? 'disabled' : ''}`">
                 *Must be a <a 
                     href="https://github.com/" 
                     target="_blank"
@@ -28,7 +28,7 @@
                     href="https://jsfiddle.net/" 
                     target="_blank"
                 >JSFiddle</a> link.
-            </p>
+            </p> -->
             <!-- <textarea 
                 placeholder="Brief description of your project, not required" 
                 @blur="e => errorCheck('description')" 
@@ -183,7 +183,6 @@
                     case 'url':
                         this.errors.url = 
                               url.length > 500 ? 'URL must not be longer than 500 characters' 
-                            : !/^https:\/\/(github\.com\/[^\/ ]+\/[^\/ ]+|codepen\.io\/[^\/ ]+\/pen\/[^\/ ]+|jsfiddle\.net\/[^\/ ]+)\S*/.test(url) ? 'Invalid URL'
                             : ''
                     break
                     // case 'description':
