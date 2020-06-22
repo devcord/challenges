@@ -18,7 +18,7 @@
     "btoa": "^1.2.1",
     "cookie-parser": "^1.4.4",
     "cookie-universal-nuxt": "^2.0.14",
-    "cross-env": "^5.2.0",
+    "cross-env": "^7.0.2",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "fs": "^0.0.1-security",
