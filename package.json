@@ -20,7 +20,7 @@
     "cookie-universal-nuxt": "^2.0.14",
     "cross-env": "^5.2.0",
     "dotenv": "^7.0.0",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "fs": "^0.0.1-security",
     "net": "^1.0.2",
     "nosqlite": "^0.2.2",
